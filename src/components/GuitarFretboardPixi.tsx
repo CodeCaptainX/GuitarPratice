@@ -294,36 +294,38 @@ export default function GuitarFretboardPixi({ width, height }: GuitarFretboardPi
             <div className="flex space-x-2 mb-4 flex-wrap">
                 <button
                     onClick={() => playChord("E Major")}
-                    className="px-3 py-1 m-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+                    className="px-3 py-2 m-1 rounded-xl bg-indigo-500 text-white text-sm font-semibold ring-1 ring-white/10 hover:bg-indigo-400"
                 >
                     E Major
                 </button>
                 <button
                     onClick={() => playChord("A Major")}
-                    className="px-3 py-1 m-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+                    className="px-3 py-2 m-1 rounded-xl bg-indigo-500 text-white text-sm font-semibold ring-1 ring-white/10 hover:bg-indigo-400"
                 >
                     A Major
                 </button>
                 <button
                     onClick={() => playChord("D Major")}
-                    className="px-3 py-1 m-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+                    className="px-3 py-2 m-1 rounded-xl bg-indigo-500 text-white text-sm font-semibold ring-1 ring-white/10 hover:bg-indigo-400"
                 >
                     D Major
                 </button>
                 <button
                     onClick={() => playChord("G Major")}
-                    className="px-3 py-1 m-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+                    className="px-3 py-2 m-1 rounded-xl bg-indigo-500 text-white text-sm font-semibold ring-1 ring-white/10 hover:bg-indigo-400"
                 >
                     G Major
                 </button>
                 <button
                     onClick={() => playChord("C Major")}
-                    className="px-3 py-1 m-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+                    className="px-3 py-2 m-1 rounded-xl bg-indigo-500 text-white text-sm font-semibold ring-1 ring-white/10 hover:bg-indigo-400"
                 >
                     C Major
                 </button>
             </div>
-            <canvas ref={canvasRef} width={width} height={height} style={{ border: '1px solid #ccc' }} />
+            <div className="overflow-hidden rounded-2xl ring-1 ring-white/10 bg-slate-950/30">
+              <canvas ref={canvasRef} width={width} height={height} />
+            </div>
         </div>
     );
 }

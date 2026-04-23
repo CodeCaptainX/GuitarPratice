@@ -1,22 +1,50 @@
-import { JSX } from 'react';
-import GuitarFretboardPixi from '../components/GuitarFretboardPixi';
-
-export default function GuitarFretboard(): JSX.Element {
+export default function AboutPage() {
   return (
-    <div className="flex flex-col items-center w-full max-w-4xl mx-auto my-8">
-      <h2 className="text-2xl font-bold mb-4">Interactive Guitar Fretboard</h2>
-      <p className="mb-4 text-gray-600">Click on any fret position to hear the note</p>
+    <div className="space-y-6">
+      <section className="rounded-2xl bg-white/5 p-5 ring-1 ring-white/10">
+        <h2 className="text-base font-semibold text-white">What is this?</h2>
+        <p className="mt-2 text-sm text-slate-300">
+          A lightweight guitar practice companion: random-note trainer, key filtering, scale
+          display, simple routines, and an interactive fretboard.
+        </p>
+      </section>
 
-      {/* Nut */}
-      <div className="w-full max-w-4xl mb-2 h-4 bg-gray-100 rounded"></div>
+      <section className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className="rounded-2xl bg-white/5 p-5 ring-1 ring-white/10">
+          <div className="text-sm font-semibold text-white">Suggested workflow</div>
+          <ol className="mt-3 space-y-2 text-sm text-slate-300">
+            <li>
+              <span className="font-semibold text-white">1.</span> Create a routine in{" "}
+              <span className="font-semibold text-white">Manage</span>.
+            </li>
+            <li>
+              <span className="font-semibold text-white">2.</span> Set your default key, max fret,
+              and interval.
+            </li>
+            <li>
+              <span className="font-semibold text-white">3.</span> Hit{" "}
+              <span className="font-semibold text-white">Practice</span> and start the timer.
+            </li>
+          </ol>
+        </div>
 
-      {/* Fretboard */}
-      <GuitarFretboardPixi width={800} height={400} />
-
-      <div className="mt-6 text-center text-gray-600">
-        <p>Click individual frets to play notes or use the chord buttons above</p>
-        <p className="text-sm mt-2">Frequencies are calculated using the equation: f = f₀ × 2^(n/12)</p>
-      </div>
-    </div >
+        <div className="rounded-2xl bg-white/5 p-5 ring-1 ring-white/10">
+          <div className="text-sm font-semibold text-white">Notes</div>
+          <ul className="mt-3 space-y-2 text-sm text-slate-300">
+            <li>
+              Defaults persist in your browser using <span className="font-semibold text-white">localStorage</span>.
+            </li>
+            <li>
+              The Practice screen can speak note names using{" "}
+              <span className="font-semibold text-white">Speech Synthesis</span> (browser support varies).
+            </li>
+            <li>
+              Fretboard audio uses <span className="font-semibold text-white">Tone.js</span>.
+            </li>
+          </ul>
+        </div>
+      </section>
+    </div>
   );
 }
+

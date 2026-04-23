@@ -3,6 +3,11 @@ import React, { useState, useEffect, useRef } from "react";
 import { getNoteAtPosition } from "../../utils/musicTheory";
 import ScaleGenerator from "./ScaleGenerator";
 import KeyFilterControls from "./KeyFilterControls";
+import {
+  loadPracticeSettings,
+  savePracticeSettings,
+  PracticeSettings,
+} from "../../utils/practiceStorage";
 //TODO
 // create random lick
 // be able to play just one poisition or two postion or every position base on caged system
@@ -52,22 +57,23 @@ interface RandomNote {
 }
 
 const RandomNoteGenerator: React.FC = () => {
+  const [initialSettings] = useState<PracticeSettings>(() => loadPracticeSettings());
   const [currentNote, setCurrentNote] = useState<RandomNote | null>(null);
   const [isRunning, setIsRunning] = useState<boolean>(false);
-  const [interval, setIntervalTime] = useState<number>(2000); // 2 seconds default
-  const [useKeyFilter, setUseKeyFilter] = useState<boolean>(false);
-  const [selectedKey, setSelectedKey] = useState<string>("C");
-  const [includeOctave, setIncludeOctave] = useState<boolean>(true);
+  const [interval, setIntervalTime] = useState<number>(initialSettings.intervalMs);
+  const [useKeyFilter, setUseKeyFilter] = useState<boolean>(initialSettings.useKeyFilter);
+  const [selectedKey, setSelectedKey] = useState<string>(initialSettings.selectedKey);
+  const [includeOctave, setIncludeOctave] = useState<boolean>(initialSettings.includeOctave);
 
-  const [scaleType, setScaleType] = useState<"major" | "minor">("major");
+  const [scaleType, setScaleType] = useState<"major" | "minor">(initialSettings.scaleType);
   const [minorType, setMinorType] = useState<
     "natural" | "harmonic" | "melodic"
-  >("natural");
-  const [maxFret, setMaxFret] = useState<number>(18);
-  const [useSound, setUseSound] = useState<boolean>(true);
-  const [useSpeech, setUseSpeech] = useState<boolean>(true);
-  const [volume, setVolume] = useState<number>(80);
-  const [startOctave, setStartOctave] = useState<number>(4);
+  >(initialSettings.minorType);
+  const [maxFret, setMaxFret] = useState<number>(initialSettings.maxFret);
+  const [useSound, setUseSound] = useState<boolean>(initialSettings.useSound);
+  const [useSpeech, setUseSpeech] = useState<boolean>(initialSettings.useSpeech);
+  const [volume, setVolume] = useState<number>(initialSettings.volume);
+  const [startOctave, setStartOctave] = useState<number>(initialSettings.startOctave);
 
   // Refs to store audio elements
   const alarmSoundRef = useRef<HTMLAudioElement | null>(null);
@@ -93,6 +99,35 @@ const RandomNoteGenerator: React.FC = () => {
       }
     };
   }, []);
+
+  // Persist settings so Manage + Practice stay in sync
+  useEffect(() => {
+    savePracticeSettings({
+      intervalMs: interval,
+      useKeyFilter,
+      selectedKey,
+      includeOctave,
+      scaleType,
+      minorType,
+      maxFret,
+      useSound,
+      useSpeech,
+      volume,
+      startOctave,
+    });
+  }, [
+    interval,
+    useKeyFilter,
+    selectedKey,
+    includeOctave,
+    scaleType,
+    minorType,
+    maxFret,
+    useSound,
+    useSpeech,
+    volume,
+    startOctave,
+  ]);
 
   // Determines if a note belongs to the selected key
   const isNoteInKey = (noteName: string): boolean => {
