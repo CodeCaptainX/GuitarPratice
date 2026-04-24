@@ -7,7 +7,10 @@ export type TabRiff = {
   bpm: number;
   bars: number; // 4/4
   stepsPerBeat: number; // 2 => eighth notes
-  // cells[stringIndex][stepIndex] = fret number or null
+  // cells[stringIndex][stepIndex]:
+  // - null: empty (no note, or "tie" when using sustain-on-empty playback)
+  // - -1: explicit mute (force release in sustain playback)
+  // - 0..24: fret number
   cells: Array<Array<number | null>>; // 6 x totalSteps
 };
 
@@ -49,7 +52,9 @@ export function loadTabRiff(): TabRiff {
         if (v === null || v === undefined) return null;
         const num = Number(v);
         if (!Number.isFinite(num)) return null;
-        return clamp(Math.trunc(num), 0, 24);
+        const t = Math.trunc(num);
+        if (t === -1) return -1;
+        return clamp(t, 0, 24);
       });
     });
 
@@ -84,7 +89,7 @@ export function getNotesAtStep(riff: TabRiff, stepIndex: number): string[] {
   const notes: string[] = [];
   for (let stringRow = 0; stringRow < 6; stringRow++) {
     const fret = riff.cells[stringRow]?.[stepIndex];
-    if (typeof fret !== "number") continue;
+    if (typeof fret !== "number" || fret < 0) continue;
     const stringNumber = (6 - stringRow) as StringNumber; // row 0 => string 6
     notes.push(noteAtWithOctave(stringNumber, fret));
   }

@@ -503,9 +503,8 @@ export default function ChordTrainer() {
                 <button
                   type="button"
                   onClick={() => setDrillRunning((v) => !v)}
-                  className={`w-full rounded-xl px-4 py-2 text-sm font-semibold ring-1 ring-white/10 ${
-                    drillRunning ? "bg-rose-500 hover:bg-rose-400" : "bg-indigo-500 hover:bg-indigo-400"
-                  } text-white`}
+                  className={`w-full rounded-xl px-4 py-2 text-sm font-semibold ring-1 ring-white/10 ${drillRunning ? "bg-rose-500 hover:bg-rose-400" : "bg-indigo-500 hover:bg-indigo-400"
+                    } text-white`}
                 >
                   {drillRunning ? "Stop drill" : "Start drill"}
                 </button>
@@ -518,11 +517,10 @@ export default function ChordTrainer() {
               queue.slice(0, 1 + Math.min(6, Math.max(0, queue.length - 1))).map((t, idx) => (
                 <span
                   key={`${t.root}-${t.quality}-${t.position}-${t.octave}-${idx}`}
-                  className={`rounded-full px-3 py-1.5 text-xs font-semibold ring-1 ${
-                    idx === 0
-                      ? "bg-indigo-500/20 text-indigo-100 ring-indigo-400/30"
-                      : "bg-white/5 text-slate-200 ring-white/10"
-                  }`}
+                  className={`rounded-full px-3 py-1.5 text-xs font-semibold ring-1 ${idx === 0
+                    ? "bg-indigo-500/20 text-indigo-100 ring-indigo-400/30"
+                    : "bg-white/5 text-slate-200 ring-white/10"
+                    }`}
                 >
                   <span className="mr-2 inline-flex h-5 min-w-5 items-center justify-center rounded-md bg-white/5 px-1 text-[11px] font-bold ring-1 ring-white/10">
                     {idx + 1}
@@ -626,11 +624,10 @@ export default function ChordTrainer() {
                       setPreset("E");
                     }
                   }}
-                  className={`rounded-xl px-3 py-2 text-sm font-semibold ring-1 transition-colors ${
-                    isActive
-                      ? "bg-indigo-500 text-white ring-white/10"
-                      : "bg-white/5 text-slate-200 ring-white/10 hover:bg-white/10"
-                  }`}
+                  className={`rounded-xl px-3 py-2 text-sm font-semibold ring-1 transition-colors ${isActive
+                    ? "bg-indigo-500 text-white ring-white/10"
+                    : "bg-white/5 text-slate-200 ring-white/10 hover:bg-white/10"
+                    }`}
                 >
                   {labelText}
                 </button>

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
 export type NavItem = {
@@ -21,7 +21,24 @@ const activeLink =
 
 export default function AppLayout({ navItems, children }: AppLayoutProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const location = useLocation();
+
+  useEffect(() => {
+    try {
+      setSidebarCollapsed(localStorage.getItem("guitarPractice:ui:sidebarCollapsed") === "1");
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("guitarPractice:ui:sidebarCollapsed", sidebarCollapsed ? "1" : "0");
+    } catch {
+      // ignore
+    }
+  }, [sidebarCollapsed]);
 
   const current = useMemo(() => {
     const match =
@@ -33,7 +50,7 @@ export default function AppLayout({ navItems, children }: AppLayoutProps) {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-950 to-indigo-950 text-slate-100">
-      <div className="mx-auto max-w-[1400px] px-4 py-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-[1800px] px-4 py-4 sm:px-6 lg:px-8 2xl:max-w-[1920px]">
         {/* Mobile top bar */}
         <div className="mb-4 flex items-center justify-between lg:hidden">
           <div className="flex items-center gap-3">
@@ -54,12 +71,16 @@ export default function AppLayout({ navItems, children }: AppLayoutProps) {
           </button>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[280px_1fr]">
+        <div
+          className={`grid grid-cols-1 gap-6 ${
+            sidebarCollapsed ? "lg:grid-cols-1" : "lg:grid-cols-[280px_1fr]"
+          }`}
+        >
           {/* Sidebar */}
           <aside
-            className={`${
-              mobileOpen ? "block" : "hidden"
-            } lg:block rounded-2xl bg-white/5 ring-1 ring-white/10 backdrop-blur-sm`}
+            className={`${mobileOpen ? "block" : "hidden"} ${
+              sidebarCollapsed ? "lg:hidden" : "lg:block"
+            } rounded-2xl bg-white/5 ring-1 ring-white/10 backdrop-blur-sm`}
           >
             <div className="p-4">
               <div className="hidden items-center gap-3 lg:flex">
@@ -130,6 +151,14 @@ export default function AppLayout({ navItems, children }: AppLayoutProps) {
                     </p>
                   )}
                 </div>
+
+                <button
+                  type="button"
+                  onClick={() => setSidebarCollapsed((v) => !v)}
+                  className="hidden rounded-xl bg-white/5 px-3 py-2 text-sm font-semibold text-slate-200 ring-1 ring-white/10 hover:bg-white/10 lg:inline-flex"
+                >
+                  {sidebarCollapsed ? "Show sidebar" : "Hide sidebar"}
+                </button>
               </div>
             </div>
 
@@ -140,4 +169,3 @@ export default function AppLayout({ navItems, children }: AppLayoutProps) {
     </div>
   );
 }
-
